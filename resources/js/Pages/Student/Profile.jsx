@@ -47,17 +47,25 @@ export default function Profile({ student, user, status }) {
                             Your centralized academic profile created once and reused across all university programmes.
                         </p>
                     </div>
-                    {student && (
+                    <div className="flex items-center gap-3">
                         <Link
-                            href={route('applications.create')}
+                            href={route('profile.builder')}
                             className="inline-flex items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 transition focus:outline-none"
                         >
-                            <span>Apply for Programme</span>
+                            <span>Launch 5-Step Wizard</span>
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
                             </svg>
                         </Link>
-                    )}
+                        {student && (
+                            <Link
+                                href={route('applications.create')}
+                                className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 px-4 py-2.5 text-sm font-semibold text-slate-700 dark:text-slate-200 shadow-xs hover:bg-slate-50 dark:hover:bg-slate-700 transition"
+                            >
+                                <span>Apply for Programme</span>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             }
         >

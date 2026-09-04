@@ -21,6 +21,9 @@ class Application extends Model
         'university_name',
         'application_date',
         'status',
+        'quota',
+        'declaration_accepted',
+        'submitted_at',
         'merit_score',
         'merit_rank',
         'remarks',
@@ -30,6 +33,8 @@ class Application extends Model
     {
         return [
             'application_date' => 'datetime',
+            'submitted_at' => 'datetime',
+            'declaration_accepted' => 'boolean',
             'merit_score' => 'decimal:2',
             'merit_rank' => 'integer',
         ];

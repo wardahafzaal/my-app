@@ -4,6 +4,7 @@ use App\Http\Controllers\AdmissionsDashboardController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\MeritListController;
+use App\Http\Controllers\ProfileBuilderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleSwitchController;
 use App\Http\Controllers\StudentProfileController;
@@ -33,6 +34,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
         $stats = [
             'role' => $user->role,
             'has_student_profile' => (bool) $user->student,
+            'profile_completion' => $user->student ? $user->student->completion_percentage : 0,
             'my_applications_count' => $user->isApplicant() ? Application::where('student_id', optional($user->student)->id)->count() : 0,
             'total_applications' => Application::count(),
             'pending_verifications' => Document::where('verification_status', Document::STATUS_PENDING)->count(),
@@ -51,6 +53,20 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // PART 1: Standard Student Profile
     Route::get('/student/profile', [StudentProfileController::class, 'edit'])->name('student.profile.edit');
     Route::post('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
+
+    // 5-Step Profile Builder Wizard
+    Route::get('/profile-builder', [ProfileBuilderController::class, 'index'])->name('profile.builder');
+    Route::post('/profile-builder/save-step', [ProfileBuilderController::class, 'saveStep'])->name('profile.builder.save-step');
+    Route::post('/profile-builder/submit', [ProfileBuilderController::class, 'submit'])->name('profile.builder.submit');
+
+    // Sidebar navigation convenience aliases
+    Route::get('/universities', function () {
+        return redirect()->route('applications.create');
+    })->name('universities.index');
+
+    Route::get('/documents', function () {
+        return redirect()->route('applications.index');
+    })->name('documents.index');
 
     // PART 2: University / Programme Applications
     Route::get('/applications', [ApplicationController::class, 'index'])->name('applications.index');

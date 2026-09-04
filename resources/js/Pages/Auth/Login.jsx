@@ -47,16 +47,6 @@ export default function Login({ status, canResetPassword }) {
         });
     };
 
-    // Quick fill for test accounts
-    const fillAccount = (email, password) => {
-        setData((prev) => ({
-            ...prev,
-            email,
-            password,
-        }));
-        setUserCaptcha(captchaCode);
-        setCaptchaError('');
-    };
 
     return (
         <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col justify-between text-slate-800 dark:text-slate-100 transition-colors duration-200">
@@ -277,38 +267,6 @@ export default function Login({ status, canResetPassword }) {
                             )}
                         </form>
 
-                        {/* Quick Test Logins Helper */}
-                        <div className="mt-8 pt-5 border-t border-slate-100 dark:border-slate-800 bg-slate-50/80 dark:bg-slate-800/50 -mx-6 -mb-6 sm:-mx-8 sm:-mb-8 p-5 sm:p-6 rounded-b-2xl transition-colors duration-200">
-                            <div className="flex items-center justify-between mb-2.5">
-                                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500">
-                                    Demo Accounts (1-Click Fill):
-                                </span>
-                                <span className="text-[10px] text-slate-400 font-mono">pwd: password</span>
-                            </div>
-                            <div className="grid grid-cols-3 gap-2">
-                                <button
-                                    type="button"
-                                    onClick={() => fillAccount('applicant@campus.edu', 'password')}
-                                    className="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-[11px] font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-700 shadow-2xs transition"
-                                >
-                                    🎓 Applicant
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => fillAccount('officer@campus.edu', 'password')}
-                                    className="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-[11px] font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-700 shadow-2xs transition"
-                                >
-                                    📋 Officer
-                                </button>
-                                <button
-                                    type="button"
-                                    onClick={() => fillAccount('coordinator@campus.edu', 'password')}
-                                    className="px-2.5 py-1.5 rounded-lg bg-white border border-slate-200 text-[11px] font-semibold text-slate-700 hover:border-blue-500 hover:text-blue-700 shadow-2xs transition"
-                                >
-                                    🏛️ Coordinator
-                                </button>
-                            </div>
-                        </div>
                     </div>
 
                     {/* Right Column: Helpful Information Panel (5 cols on lg) */}

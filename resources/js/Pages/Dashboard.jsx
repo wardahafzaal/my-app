@@ -50,6 +50,47 @@ export default function Dashboard({ stats, student, tasks }) {
                     </h3>
 
                     {user?.role === 'applicant' && (
+                        <div className="mb-6 rounded-2xl bg-linear-to-r from-indigo-500/10 via-purple-500/10 to-emerald-500/10 dark:from-indigo-950/40 dark:via-purple-950/30 dark:to-emerald-950/40 border border-indigo-200/80 dark:border-indigo-800/80 p-5 sm:p-6 shadow-xs">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                                <div className="space-y-1.5">
+                                    <div className="flex items-center gap-2">
+                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-indigo-600 text-white shadow-xs">
+                                            Profile Builder
+                                        </span>
+                                        <span className="text-xs font-semibold text-slate-700 dark:text-slate-300">
+                                            5-Step Centralized Admission Form
+                                        </span>
+                                    </div>
+                                    <h4 className="text-xl font-extrabold text-slate-900 dark:text-white">
+                                        Profile is <span className="text-indigo-600 dark:text-indigo-400">{stats?.profile_completion || (stats?.has_student_profile ? 68 : 0)}% complete</span>
+                                    </h4>
+                                    <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xl">
+                                        Complete your 5-step wizard (Personal Info, Contact Info, Academic Info, Quota Selection, and Declaration) to apply and qualify for merit lists.
+                                    </p>
+                                </div>
+
+                                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
+                                    <div className="w-full sm:w-44 bg-slate-200 dark:bg-slate-800 rounded-full h-3 overflow-hidden">
+                                        <div
+                                            className="bg-linear-to-r from-indigo-500 via-purple-500 to-emerald-500 h-3 rounded-full transition-all duration-700"
+                                            style={{ width: `${Math.max(stats?.profile_completion || (stats?.has_student_profile ? 68 : 10), 10)}%` }}
+                                        ></div>
+                                    </div>
+                                    <Link
+                                        href={route('profile.builder')}
+                                        className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white text-xs font-bold shadow-md shadow-indigo-200 dark:shadow-none transition"
+                                    >
+                                        <span>Continue Profile Update</span>
+                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                        </svg>
+                                    </Link>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {user?.role === 'applicant' && (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {/* Card 1: Student Profile */}
                             <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-xs flex flex-col justify-between hover:border-indigo-300 dark:hover:border-indigo-700 transition-colors duration-200">
@@ -63,23 +104,28 @@ export default function Dashboard({ stats, student, tasks }) {
                                                 ? 'bg-emerald-100 dark:bg-emerald-900/30 text-emerald-800 dark:text-emerald-300'
                                                 : 'bg-amber-100 dark:bg-amber-900/30 text-amber-800 dark:text-amber-300'
                                         }`}>
-                                            {stats?.has_student_profile ? 'Profile Verified' : 'Incomplete'}
+                                            {stats?.profile_completion ? `${stats.profile_completion}% Complete` : (stats?.has_student_profile ? 'Profile Verified' : 'Incomplete')}
                                         </span>
                                     </div>
                                     <h4 className="text-base font-bold text-slate-900 dark:text-white">Standard Student Profile</h4>
                                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
                                         {stats?.has_student_profile
-                                            ? `CNIC: ${student?.cnic_bform} • Marks: ${student?.obtained_marks}/${student?.total_marks} (${student?.percentage}%)`
+                                            ? `CNIC: ${student?.cnic_bform} • HSSC: ${student?.inter_obtained_marks || student?.obtained_marks}/${student?.inter_total_marks || student?.total_marks} (${student?.percentage}%)`
                                             : 'Create your single, reusable profile with CNIC and academic history.'}
                                     </p>
                                 </div>
-                                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800">
+                                <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                                    <Link
+                                        href={route('profile.builder')}
+                                        className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300"
+                                    >
+                                        Launch 5-Step Wizard →
+                                    </Link>
                                     <Link
                                         href={route('student.profile.edit')}
-                                        className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 flex items-center justify-between"
+                                        className="text-[11px] text-slate-500 dark:text-slate-400 hover:underline"
                                     >
-                                        <span>{stats?.has_student_profile ? 'Edit Profile Details' : 'Create Profile Now →'}</span>
-                                        <span>→</span>
+                                        Quick Edit
                                     </Link>
                                 </div>
                             </div>
